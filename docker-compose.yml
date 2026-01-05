@@ -1,15 +1,48 @@
+version: '3.8'
+
 services:
+  # Service Base de Données
   db:
-    image: postgres:15
+    image: postgres:15-alpine
+    container_name: youexpress_db
+    restart: always
     environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: youexpress_db
-  api:
-    build: .
+      POSTGRES_USER: ${DB_USER:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-password}
+      POSTGRES_DB: ${DB_NAME:-youexpress_db}
     ports:
-      - "8000:8000"
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  # Service pgAdmin (Interface pour voir la DB)
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: youexpress_pgadmin
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@youexpress.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
     depends_on:
       - db
+
+  # Service API FastAPI
+  api:
+    build: .
+    container_name: youexpress_api
+    restart: always
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    environment:
+      - DATABASE_URL=postgresql://${DB_USER:-postgres}:${DB_PASSWORD:-password}@db:5432/${DB_NAME:-youexpress_db}
     env_file:
       - .env
+    depends_on:
+      - db
+
+volumes:
+  postgres_data:
