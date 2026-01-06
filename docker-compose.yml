@@ -3,7 +3,7 @@ version: '3.8'
 services:
   # Service Base de Données
   db:
-    image: postgres:15-alpine
+    image: postgres:16-alpine
     container_name: youexpress_db
     restart: always
     environment:
