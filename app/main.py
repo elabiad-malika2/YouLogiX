@@ -73,6 +73,8 @@ async def startup_event():
 #     }
 
 
+
+
 @app.get("/")
 def read_root():
     return {"message": "Bienvenue sur l'API YouExpress"}
