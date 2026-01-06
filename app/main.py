@@ -1,7 +1,13 @@
 from fastapi import FastAPI
 from app.core.database import engine , Base
 
+from app.models.expediteur import Expediteur
+from app.models.destinataire import Destinataire
+from app.models.livreur import Livreur
+from app.models.gestionnaire import Gestionnaire
 from app.models.zone import Zone
+from app.models.colis import Colis
+from app.models.historique import HistoriqueStatut
 
 Base.metadata.create_all(bind=engine)
 

@@ -1,25 +1,15 @@
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-import os
-from dotenv import load_dotenv
+from app.core.config import settings
 
+engine = create_engine(settings.DATABASE_URL)
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+Base = declarative_base()
 
-# Charger les vatiables d'env
-
-load_dotenv()
-
-DATABASE_URL=os.getenv("DATABASE_URL")
-
-engine=create_engine(DATABASE_URL)
-
-# Creer une session 
-SessionLocal=sessionmaker(autocommit=False,autoflush=False,bind=engine)
-
-Base=declarative_base()
-
+# Dépendance pour les routes
 def get_db():
-    db=SessionLocal()
+    db = SessionLocal()
     try:
         yield db
     finally:
