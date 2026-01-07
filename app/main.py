@@ -2,6 +2,8 @@ from fastapi import FastAPI, HTTPException, Depends
 from sqlalchemy.orm import Session
 from app.core.database import engine, Base, get_db
 from app.factory.seed_all import seed_database
+from app.api.routes import colis_routes
+
 
 # importation des models
 from app.models.expediteur import Expediteur
@@ -24,6 +26,7 @@ app = FastAPI(
     version="1.0.0"
 )
 
+app.include_router(colis_routes.router)
 app.include_router(acteurs_routes.router)
 
 
