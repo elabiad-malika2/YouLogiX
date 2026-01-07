@@ -35,7 +35,7 @@ async def startup_event():
     Uncomment the line below to enable automatic seeding on startup.
     """
     seed_database()  # Uncomment to auto-seed on startup
-    pass
+    pass 
 
 
 
