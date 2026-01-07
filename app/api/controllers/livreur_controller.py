@@ -12,3 +12,6 @@ def create_livreur(db:Session,obj_in:LivreurCreate):
     db.refresh(db_obj)
 
     return db_obj
+
+def get_all(db:Session):
+    return db.query(Livreur).all()
