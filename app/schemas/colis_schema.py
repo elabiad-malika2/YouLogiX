@@ -22,6 +22,7 @@ class ColisCreate(ColisBase):
     id_destinataire: int
     id_zone: int
     id_gestionnaire: int
+    
 
 # Schéma pour la mise à jour (User Story : Livreur change le statut)
 class ColisUpdate(BaseModel):

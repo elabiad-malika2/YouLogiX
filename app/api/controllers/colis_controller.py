@@ -12,7 +12,7 @@ def create_colis_logic(db:Session, colis_in:ColisCreate):
         id_expediteur = colis_in.id_expediteur,
         id_destinataire = colis_in.id_destinataire,
         id_zone = colis_in.id_zone,
-        id_gestionnaire = colis_in. id_gestionnaire,
+        id_gestionnaire = colis_in.id_gestionnaire,
         statut = "créé",
     )
     
