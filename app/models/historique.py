@@ -12,3 +12,4 @@ class HistoriqueStatut(Base):
     timestamp = Column(DateTime, default=datetime.utcnow)
 
     colis = relationship("Colis", back_populates="historique")
+    
