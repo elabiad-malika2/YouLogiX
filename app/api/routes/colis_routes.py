@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from app.core.database import get_db
 from app.schemas.colis_schema import ColisCreate,ColisResponse
 from app.api.controllers import colis_controller
-from app.utlis.exception_handler import raise_error_creation, raise_error_update
+from app.utlis.exception_handler import raise_error_creation, raise_error_update, raise_not_found
 
 
 router = APIRouter(prefix="/colis", tags=["Colis"])
@@ -26,3 +26,24 @@ def assign_colis(livreur_id:int, colis_id:int, db:Session = Depends(get_db)):
         
     except Exception as e:
         raise_error_update(e)
+
+
+
+
+
+@router.patch("/statut/update",response_model=ColisResponse)
+def statut_update(new_statut:str, colis_id:int, db:Session = Depends(get_db)):
+    try:
+        return colis_controller.update_statut(db, new_statut, colis_id)
+    except Exception as e:
+        raise_error_update(e)
+        
+
+
+@router.get("/search/zone")
+def colis_search(zone_name:str, db:Session = Depends(get_db)):
+    
+    try:
+        return colis_controller.colis_search(db, zone_name)
+    except Exception as e:
+        raise_not_found(zone_name, 404)
