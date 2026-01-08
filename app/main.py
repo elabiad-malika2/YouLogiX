@@ -16,7 +16,7 @@ from app.models.historique import HistoriqueStatut
 
 # importation des routes
 
-from app.api.routes import acteurs_routes
+from app.api.routes import acteurs_routes,zone_routes
 
 Base.metadata.create_all(bind=engine)
 
@@ -28,17 +28,18 @@ app = FastAPI(
 
 app.include_router(colis_routes.router)
 app.include_router(acteurs_routes.router)
+app.include_router(zone_routes.router)
 
 
 # Method 1: Startup Event - Automatically seed data when app starts
-@app.on_event("startup")
-async def startup_event():
-    """
-    This runs automatically when the FastAPI application starts.
-    Uncomment the line below to enable automatic seeding on startup.
-    """
-    seed_database()  # Uncomment to auto-seed on startup
-    pass 
+# @app.on_event("startup")
+# async def startup_event():
+#     """
+#     This runs automatically when the FastAPI application starts.
+#     Uncomment the line below to enable automatic seeding on startup.
+#     """
+#     seed_database()  # Uncomment to auto-seed on startup
+#     pass 
 
 
 
