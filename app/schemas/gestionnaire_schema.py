@@ -1,3 +1,4 @@
+from typing import Optional
 from pydantic import BaseModel
 
 class GestionnaireBase(BaseModel):
@@ -13,3 +14,8 @@ class GestionnaireResponse(GestionnaireBase):
 
     class Config:
         from_attributes = True
+
+class GestionnaireUpdate(BaseModel):
+    nom: Optional[str] = None
+    prenom: Optional[str] = None
+    telephone: Optional[str] = None
