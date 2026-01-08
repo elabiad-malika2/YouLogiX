@@ -3,6 +3,7 @@ from datetime import datetime
 from app.models.colis import Colis 
 from app.models.historique import HistoriqueStatut
 from app.schemas.colis_schema import ColisCreate
+from app.models.zone import Zone   
 
 # Module Colis (Le plus gros morceau) :
 # Controller colis_controller.py : 
@@ -36,9 +37,8 @@ def assign_colis(db:Session, colis_id:int, livreur_id:int):
     if historique.nouveau_statut != colis.statut :
         historique.ancien_statut = historique.nouveau_statut
         historique.nouveau_statut = colis.statut
-        
     historique.timestamp = datetime.utcnow()
-        
+    
 
     db.commit()
     db.refresh(colis)
@@ -50,6 +50,33 @@ def assign_colis(db:Session, colis_id:int, livreur_id:int):
 def update_statut(db:Session, new_statut:str, colis_id:int):
     
     colis = db.query(Colis).filter(Colis.id == colis_id).first()
+    historique = db.query(HistoriqueStatut).filter(HistoriqueStatut.id_colis == colis_id).first()
+    
+    colis.statut = new_statut
+    
+    if historique.nouveau_statut != colis.statut :
+        historique.ancien_statut = historique.nouveau_statut
+        historique.nouveau_statut = colis.statut
+    historique.timestamp = datetime.utcnow()
+    
+
+    db.commit()
+    db.refresh(colis)
+    db.refresh(historique)
+    
+    return colis
+    
+    
+    
+    
+    
+def colis_search(db:Session, zone_name:str):
+    return db.query(Colis).join(Zone).filter(Zone.nom == zone_name).all()
+    
+    
+     
+    
+    
     
     
     
