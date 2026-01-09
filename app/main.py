@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from app.core.database import engine, Base, get_db
 from app.factory.seed_all import seed_database
 from app.api.routes import colis_routes
-
+from app.utlis.logger import logger
 
 # importation des models
 from app.models.expediteur import Expediteur
@@ -25,6 +25,9 @@ app = FastAPI(
     description="Système de gestion logistique pour YouExpress Maroc",
     version="1.0.0"
 )
+
+
+logger.success("L'API YouExpress est prête et en ligne")
 
 app.include_router(colis_routes.router)
 app.include_router(acteurs_routes.router)

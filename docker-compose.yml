@@ -37,6 +37,7 @@ services:
       - "8000:8000"
     volumes:
       - .:/app
+      - ./logs:/app/logs
     environment:
       - DATABASE_URL=postgresql://${DB_USER:-postgres}:${DB_PASSWORD:-password}@db:5432/${DB_NAME:-youexpress_db}
     env_file:
