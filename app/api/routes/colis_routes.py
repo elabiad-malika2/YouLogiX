@@ -40,7 +40,7 @@ def statut_update(new_statut:str, colis_id:int, db:Session = Depends(get_db)):
         
 
 
-@router.get("/search/zone")
+@router.post("/search/zone")
 def colis_search(zone_name:str, db:Session = Depends(get_db)):
     
     try:

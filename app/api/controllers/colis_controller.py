@@ -12,15 +12,29 @@ from app.models.zone import Zone
 # Fonction mettre_a_jour_statut : Trés important -> Cette fonction doit aussi créer automatiquement une ligne dans la table HistoriqueStatut à chaque changement.
 # Filtres avancés : Pouvoir lister les colis par Statut ou par Zone.
 
+def create_hist(db:Session, colis_id:int):
+    
+    db_historique = HistoriqueStatut(
+        id_colis=colis_id,
+        ancien_statut="créé",
+        nouveau_statut="créé"
+    )
+    
+    db.add(db_historique)
+    db.commit()
+    db.refresh(db_historique)
 
+    return 
 
 def create_colis_logic(db:Session, colis_in:ColisCreate):
     
     db_colis = Colis(**colis_in.model_dump())
-    
+
     db.add(db_colis)
     db.commit()
     db.refresh(db_colis)
+    
+    create_hist(db, db_colis.id)
 
     return db_colis 
 
@@ -29,9 +43,11 @@ def assign_colis(db:Session, colis_id:int, livreur_id:int):
     
     colis = db.query(Colis).filter(Colis.id == colis_id).first()
     historique = db.query(HistoriqueStatut).filter(HistoriqueStatut.id_colis == colis_id).first()
-    
     colis.id_livreur = livreur_id 
     colis.statut = "en_transit"
+
+
+    
     
     # HistoriqueStatut.nouveau_statut
     if historique.nouveau_statut != colis.statut :
