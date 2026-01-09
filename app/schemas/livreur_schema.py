@@ -1,3 +1,4 @@
+from typing import Optional
 from pydantic import BaseModel
 
 class LivreurBase(BaseModel):
@@ -15,3 +16,12 @@ class LivreurResponse(LivreurBase):
 
     class Config:
         from_attributes = True
+
+
+class LivreurUpdate(BaseModel):
+    nom: Optional[str] =None
+    prenom: Optional[str] =None
+    telephone: Optional[str] =None
+    vehicule: Optional[str] =None
+    zone_assignee: Optional[str] =None
+ 

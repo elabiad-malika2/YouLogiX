@@ -5,7 +5,5 @@ from app.core.database import get_db
 
 @pytest.fixture
 def client():
-    with TestClient(app) as c: 
+    with TestClient(app) as c :
         yield c
-        
-        
