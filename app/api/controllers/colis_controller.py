@@ -4,6 +4,7 @@ from app.models.colis import Colis
 from app.models.historique import HistoriqueStatut
 from app.schemas.colis_schema import ColisCreate
 from app.models.zone import Zone   
+from app.utlis.logger import logger
 
 # Module Colis (Le plus gros morceau) :
 # Controller colis_controller.py : 
@@ -24,7 +25,10 @@ def create_hist(db:Session, colis_id:int):
     db.commit()
     db.refresh(db_historique)
 
-    return 
+    
+    
+    return logger.success(f"Destinataire créé avec succès (ID: {db_historique.id})")
+
 
 def create_colis_logic(db:Session, colis_in:ColisCreate):
     
@@ -35,6 +39,8 @@ def create_colis_logic(db:Session, colis_in:ColisCreate):
     db.refresh(db_colis)
     
     create_hist(db, db_colis.id)
+
+    logger.success(f"colis créé avec succès (ID: {db_colis.id})")
 
     return db_colis 
 
@@ -60,6 +66,8 @@ def assign_colis(db:Session, colis_id:int, livreur_id:int):
     db.refresh(colis)
     db.refresh(historique)
     
+    logger.success(f"colis assingé avec succès (ID: {colis.id}) a le livreur {livreur_id}")
+    
     return colis
 
 
@@ -79,6 +87,9 @@ def update_statut(db:Session, new_statut:str, colis_id:int):
     db.commit()
     db.refresh(colis)
     db.refresh(historique)
+    
+    logger.success(f"colis statut modifié avec succès (ID: {colis.id})")
+
     
     return colis
     

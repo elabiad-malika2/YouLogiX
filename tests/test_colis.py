@@ -1,3 +1,4 @@
+
 def test_create_colis(client):
     
     
@@ -17,10 +18,12 @@ def test_create_colis(client):
     colis_id = response_create.json()["id"]
     
     
-    # assign colis :
+    
+# assign colis :
+def test_assign_colis(client):
     
     assign_params = {
-        "colis_id":colis_id,
+        "colis_id":5,
         "livreur_id":2
     }
     
@@ -28,10 +31,11 @@ def test_create_colis(client):
     assert response_assign.status_code == 200
     
     
-    # update status : 
+# update status :    
+def test_apdate_colis(client):
     
     update_params = {
-        "colis_id": colis_id,
+        "colis_id": 5,
         "new_statut": "livré"
     }
     
